@@ -18,7 +18,7 @@ pom.xml：Project Object Model 项目对象类型。它是maven的核心配置�
 
 坐标：使用下图的三个向量在仓库中定义唯一的maven工程
 
-<img src="E:\learning-notes\java后端开发学习\maven学习\1.png" alt="maven向量演示" style="zoom:80%;" />
+<img src=".\1.png" alt="maven向量演示" style="zoom:80%;" />
 
 标签`<dependency>`中包括的是项目所依赖的文件。
 
@@ -97,7 +97,7 @@ maven有三套相互独立的生命周期。
 
 ### 依赖的传递性
 
-<img src="E:\learning-notes\java后端开发学习\maven学习\2.png" style="zoom:80%;" />
+<img src=".\2.png" style="zoom:80%;" />
 
 WebMavenDemo项目依赖JavaMavenService1 JavaMavenService1项目依赖JavaMavenService2
 
@@ -113,13 +113,13 @@ pom.xml文件配置好依赖关系后，必须首先mvn install后，依赖的ja
 
 **1、路径最短优先原则**
 
-<img src="E:\learning-notes\java后端开发学习\maven学习\3.png" style="zoom: 80%;" />
+<img src=".\3.png" style="zoom: 80%;" />
 
 Service2的log4j的版本是1.2.7版本，Service1排除了此包的依赖，自己加了一个Log4j的1.2.9的版本，那么WebMavenDemo项目遵守路径最短优先原则，Log4j的版本和Sercive1的版本一致。
 
 **2、路径相同先声明优先原则**
 
-<img src="E:\learning-notes\java后端开发学习\maven学习\4.png" style="zoom:80%;" />
+<img src=".\4.png" style="zoom:80%;" />
 
 这种场景依赖关系发生了变化，WebMavenDemo项目依赖Sercive1和Service2，它俩是同一个路径，那么谁在WebMavenDemo的pom.xml中先声明的依赖就用谁的版本。
 
