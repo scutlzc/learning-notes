@@ -1,6 +1,10 @@
 # maven学习笔记
 
+[toc]
+
 > 定义：maven是一款服务于java平台的自动化构建工具
+
+> maven依赖项版本查询网站：http://mvnrepository.com/
 
 > 构建的各个环节
 >
@@ -187,4 +191,74 @@ Service2的log4j的版本是1.2.7版本，Service1排除了此包的依赖，自
 </build>
 ```
 
-> maven依赖项版本查询网站：http://mvnrepository.com/
+## \<parent>标签
+
+maven中出现parent标签，指的是有一个父的pom项目，其中已经加载了很多必须的dependencies，还有可选的dependency。
+
+以下对一个parent项目的pom.xml的模拟。
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.demo</groupId>
+    <artifactId>parent</artifactId>
+    <version>1.0.0</version>
+    <packaging>pom</packaging>
+
+    <!--  子项目必有依赖-->
+    <dependencies>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.16.6</version>
+        </dependency>
+    </dependencies>
+
+  <!--  子项目可选依赖，此时子项目导入该包时不需要写版本号-->
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>MyRepository.org.springframework</groupId>
+                <artifactId>spring-webmvc</artifactId>
+                <version>4.2.4-RELEASE</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+</project>
+```
+
+下面子项目的pom.xml，
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.demo</groupId>
+    <artifactId>websize</artifactId>
+    <version>1.0.0</version>
+    <packaging>war</packaging>
+
+    <parent>
+        <groupId>com.demo</groupId>
+        <artifactId>parent</artifactId>
+        <version>1.0.0</version>
+    </parent>
+
+    <!--<dependencies>
+        <dependency>
+            &lt;!&ndash;因为parent项目有此可选依赖，所以不需要写版本号&ndash;&gt;
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+        </dependency>
+    </dependencies>-->
+
+</project>
+```
+
